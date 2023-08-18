@@ -6,7 +6,7 @@ Code will be published after the conference proceedings. Thanks for your patienc
 
 ICCV 2023 Paper: 
 
-https://ivrl.github.io/vtagml/
+https://ivrl.github.io/VTAGML/
 ![Figure Abstract](fig-abstract.png)
 
 1. Install pytorch,torchvision
