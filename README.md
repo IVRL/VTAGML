@@ -1,5 +1,5 @@
 # (ICCV 2023) VTAGML
-## Vision Transformer Adapters for Generalizable Multitask Learning (ICCV 2023)
+## (ICCV 2023) Vision Transformer Adapters for Generalizable Multitask Learning 
 Deblina Bhattacharjee, Sabine Süsstrunk, and Mathieu Salzmann
 
 Code will be published after the conference proceedings. Thanks for your patience!
