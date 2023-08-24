@@ -2,12 +2,11 @@
 ## Vision Transformer Adapters for Generalizable Multitask Learning 
 Deblina Bhattacharjee, Sabine Süsstrunk, and Mathieu Salzmann
 
-Code will be published after the conference proceedings. Thanks for your patience!
 
 ICCV 2023 Paper: 
 
 https://ivrl.github.io/VTAGML/
-![Figure Abstract](fig-abstract.png)
+![Figure Abstract](avtar.gif)
 
 1. Install pytorch,torchvision
 2. Install apex
