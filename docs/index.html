@@ -34,61 +34,126 @@
     </p>
     <div class="btn-group" role="group" aria-label="Top menu">
         <a class="btn btn-primary" href="https://arxiv.org/pdf/2205.08303.pdf">Paper</a>
-        <a class="btn btn-primary" href="https://github.com/IVRL/VTAGML">Code (coming soon)</a>
-         <a class="btn btn-primary" href="https://drive.google.com/file/d/1dkMCwL5qLlDARmBqcrtzwSAgVn-wtdk7/view?usp=sharing">Poster</a>
+        <!--<a class="btn btn-primary" href="https://github.com/IVRL/VTAGML">Code (coming soon)</a>-->
+         <a class="btn btn-primary" href="https://drive.google.com/file/d/1Swf6LVL2Gi_gCwLxEhCpHg-5B8fG7Sor/view?usp=sharing">Slides</a>
     </div>
 </div>
 
 <div class="container">
     <div class="section">
-        <div class="vcontainer">
+        
+                        <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/teaser-iccv1.pdf" style="width:90%; margin-right:-10px; margin-top:-10px;">
+            </div> 
+            <hr>
+        <!--<div class="vcontainer">
             <iframe class='video' src="https://www.youtube.com/embed/_PgL3u6G_9E"  title="YouTube video player" frameborder="0" 
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-        </div>
-        <hr>
+        </div>-->
         <p>
-            We propose an end-to-end Multitask Learning Transformer framework, named MulT, to simultaneously learn multiple high-level vision tasks, including depth estimation, semantic segmentation, reshading, surface normal estimation, 2D keypoint detection, and edge detection. Based on the Swin transformer model, our framework encodes the input image into a shared representation and makes predictions for each vision task using task-specific transformer-based decoder heads. At the heart of our approach is a shared attention mechanism modeling the dependencies across the tasks. We evaluate our model on several multitask benchmarks, showing that our MulT framework outperforms both the state-of-the art multitask convolutional neural network models and all the respective single task transformer models. Our experiments further highlight the benefits of sharing attention across all the tasks, and demonstrate that our MulT model is robust and generalizes well to new domains.
+             We introduce the first multitasking vision transformer adapters that learn generalizable task affinities which can be applied to novel tasks and domains. Integrated into an off-the-shelf vision transformer backbone, our adapters can simultaneously solve multiple dense vision tasks in a parameter-efficient manner, unlike existing multitasking transformers that are parametrically expensive. In contrast to concurrent methods, we do not require retraining or fine-tuning whenever a new task or domain is added. We introduce a task-adapted attention mechanism within our adapter framework that combines gradient-based task similarities with attention-based ones. The learned task affinities generalize to the following settings: zero-shot task transfer, unsupervised domain adaptation, and generalization without fine-tuning to novel domains. We demonstrate that our approach outperforms not only the existing convolutional neural network-based multitasking methods but also the vision transformer-based ones.
         </div>
 
         <div class="section">
-            <h2>Pipeline</h2>
+            <h2>Method Architecture</h2>
             <hr>
                         <div class="row align-items-center">
                 <div class="col justify-content-center text-center">
-                    <img src="MulT_detailed.png" style="width:100%; margin-right:-10px; margin-top:-10px;">
+                    <img src="images/overall-vision-adapter-architecture.png" style="width:100%; margin-right:-10px; margin-top:-10px;">
             </div> 
             <hr>
             <p>
-                Detailed overview of our MulT architecture. Our MulT model builds upon the Swin transformer backbone and models the dependencies between multiple vision tasks via a shared attention mechanism (shown in the bottom left), which we introduce in this work. The encoder module (in green) embeds a shared representation of the input image, which is then decoded by the transformer decoders (in blue) for the respective tasks. Note that the transformer decoders have the same architecture but different task heads. The overall model is jointly trained in a supervised manner using a weighted loss of all the tasks involved. For clarity, only three tasks are depicted here.  </p>
+                Detailed overview of our architecture. The frozen transformer encoder module (in <FONT COLOR="#FFA857"> orange</FONT>) extracts a shared representation of the input image, which is then utilized to learn the task affinities in our novel vision transformer adapters (in <FONT COLOR="#C39BD3">purple</FONT>). Each adapter layer uses gradient task similarity (TROA) (in <FONT COLOR="#F4D03F">yellow</FONT>) and Task-Adapted Attention (TAA) to learn the task affinities, which are communicated with skip connections (in <FONT COLOR="#2B4B9B">blue</FONT>) between consecutive adapter layers. The task embeddings are then decoded by the fully-supervised transformer decoders (in <FONT COLOR="#ABEBC6">green</FONT>) for the respective tasks. Note that the transformer decoders are shared but have different task heads (in <FONT COLOR="#9EA3A0">grey</FONT>). For clarity, only three tasks are depicted here and TAA is explained in a separate figure below.  
             </p>
         </div>
         </div>
 
-        <div class="section">
-            <h2>Results</h2>
-            <hr>
+            <h2>Vision Transformer Adapter Module</h2>
             
+                        <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/vision-adapter-new.pdf" style="width:50%; margin-right:-10px; margin-top:-10px;">
+            </div> 
+            <hr>
+            <p>
+                Overview of our vision transformer adapter module. Our vision adapters learn transferable and generalizable task affinities in a parameter-efficient way. We show two blocks to depict the skip connectivity between them. The main modules (TROA) and (TAA) of our vision transformer adapters are depicted below.
+            </p>
+        </div>
+        
+        <h2>Task Represenattaion Optimization Algorithm (TROA)</h2>
+            
+                        <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/troa-new.png" style="width:50%; margin-right:-10px; margin-top:-10px;">
+            </div> 
+            <hr>
+            <p>
+                We show the task affinities from TROA when four tasks comprising semantic segmentation (SemSeg), depth, surface normal, and edges are jointly learned. We show that TROA learns a strong task affinity between the same task gradients, for example, segmentation with segmentation. This is a self-explanatory observation. Consequently, TROA also learns task affinities between proximate tasks such as segmentation and depth, and task affinities between non-proximate tasks such as segmentation and normal. Note that task dependence is assymetric, i.e. segmentation does not affect normal as normal effects segmentation. These task affinities are used by our novel task-adapted attention module as described in what follows.
+            </p>
+        </div>
+
+        <h2>Matching the Feature Dimensions using FiLM</h2>
+            
+                        <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/film-finalised.pdf" style="width:80%; margin-right:-10px; margin-top:-10px;">
+            </div> 
+            <hr>
+            <p>
+                Detailed overview of Feature Wise Linear Modulation (FiLM)} which linearly shifts and scales tasks representations to match dimensions of the feature maps. The orange rectangular area is FiLM.  
+            </p>
+        </div>
+
+        <h2>Task-Adapted Attention</h2>
+            
+                        <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/TAA-finalised.png" style="width:80%; margin-right:-10px; margin-top:-10px;">
+            </div> 
+            <hr>
+            <p>
+                Overview of our Task-Adapted Attention (TAA) mechanism that combines task affinities with image attention. Note that the process, in the foreground, is for a single attention head which is repeated for 'M' heads to give us the task-adapted multi-head attention.  
+            </p>
+        </div>
+
+      
+        <div class="section">
+            <h2>Multitasking Results</h2>
+            
+            <hr>
                 <div class="row align-items-center">
                 <div class="col justify-content-center text-center">
-                    <img src="QR-taskonomy1.png" style="width:100%; margin-right:-10px; margin-top:-10px;">
+                    <img src="images/nyu-qr-new.pdf" style="width:100%; margin-right:-10px; margin-top:-10px;">
             </div>
             <hr>
             <p>
-             Qualitative comparison on the six vision tasks of the Taskonomy benchmark. From top to bottom, we show qualitative results using CNN multitak learning baselines, such as- MTL, Taskonomy, Taskgrouping, Cross-task consistency; the single-task dedicated Swin transformer and our six-task MulT model. We show, from left to right, the input image, the semantic segmentation results, the depth predictions, the surface normal estimations, the 2D keypoint detections, the 2D edge detections and the reshading results for all the models. All models are jointly trained on the six vision tasks, except for the Swin transformer baseline, which is trained on the independent single tasks. Our MulT model outperforms both the single task Swin baselines and the multitask CNN based baselines. Best seen on screen and zoomed within the yellow circled regions.
+             Multitask Learning comparison on the NYUDv2 benchmark in the'S-D-N-E' setting. Our model outperforms all the multitask baselines, i.e. ST-MTL, InvPT, Taskprompter, and MulT, respectively. For instance, our model correctly segments and predicts the surface normal of the elements within the yellow-circled region, unlike the baseline. All the methods are based on the same Swin-B V2 backbone. Best seen on screen and zoomed in. For more details and quantitative results, please refere to our paper.
+            </p>
+            </div>
+
+               <div class="row align-items-center">
+                <div class="col justify-content-center text-center">
+                    <img src="images/qualitative-taskonomy.png" style="width:100%; margin-right:-10px; margin-top:-10px;">
+            </div>
+            <hr>
+            <p>
+             Multitask Learning comparison on the Taskonomy benchmark in the'S-D-N-E' setting. Our model outperforms all the multitask baselines, respectively. For instance, our model correctly segments and predicts the surface normal of the elements within the yellow-circled region, unlike the baseline. All the methods are based on the same Swin-B V2 backbone. Best seen on screen and zoomed in. For more details and quantitative results, please refere to our paper.
             </p>
             </div>
             </div>
+
     <div class="section">
-            <h2>Generalization to New Domains</h2>
+            <h2>Unsupervised Domain Adaptation (UDA)</h2>
             <hr>
             
                 <div class="row align-items-center">
                 <div class="col justify-content-center text-center">
-                    <img src="generalisation.png" style="width:100%; margin-right:-10px; margin-top:-10px;">
+                    <img src="images/uda-results-new.pdf" style="width:90%; margin-right:-10px; margin-top:-10px;">
             </div>
             <hr>
             <p>
-             Our MulT model generalizes better to new domains than the Cross-task CNN baseline, both when fine-tuned and not fine-tuned, across the tasks of surface normal prediction and reshading. This shows the benefits of our shared attention module. We test the models on two target domains, Gaussian blur applied to the Taskonomy images and the out-of distribution CocoDoom dataset. Best viewed on screen and when zoomed in the yellow circled regions.
+             Unsupervised Domain Adaptation (UDA) results on Synthia->Cityscapes.  Our model outperforms the CNN-based baseline (XTAM-UDA) and the Swin-B V2-based baselines (1-task Swin-UDA, MulT-UDA, respectively. For instance, our method can predict the depth of the car tail light, unlike the baselines. Best seen on screen and zoomed within the yellow circled region.
             </p>
             </div>
             </div>
@@ -96,21 +161,28 @@
         <h2>Bibtex</h2>
         <hr>
         <div class="row align-items-center"></div>
-        <div class="col justify-content-center text-center">
+        <div class="col justify-content-center text-center"> 
         <div class="bibtexsection">
-               @misc{https://doi.org/10.48550/arxiv.2205.08303,
-                    doi = {10.48550/ARXIV.2205.08303},
-                    author = {Bhattacharjee, Deblina and Zhang, Tong and Süsstrunk, Sabine and </br>                              Salzmann, Mathieu},
-                    title = {MulT: An End-to-End Multitask Learning Transformer},
+               @misc{
+                    author = {Bhattacharjee, Deblina and Süsstrunk, Sabine and </br>                              Salzmann, Mathieu},
+                    title = {Vision Transformer Adapters for Generalizable Multitask Learning},
                     publisher = {arXiv},
-                    year = {2022},
+                    year = {2023},
                     copyright = {Creative Commons Attribution Non Commercial No Derivatives </br>                                4.0 International}
                     }
 
         </div>
     </div>
     </div>
+<div class="section">
+        <h2>Acknowledgement</h2>
+        <div class="row align-items-center"></div>
+        <div class="col justify-content-center text-center"> 
+              <p> This work was supported in part by the Swiss National Science Foundation via the Sinergia grant CRSII5$-$180359.</p>
 
+        </div>
+    </div>
+    </div>
     <hr>
 
 </div>
