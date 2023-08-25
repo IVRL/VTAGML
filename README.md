@@ -8,19 +8,3 @@ ICCV 2023 Paper:
 https://ivrl.github.io/VTAGML/
 ![Figure Abstract](avtar.gif)
 
-1. Install pytorch,torchvision
-2. Install apex
-```
-conda install -c conda-forge nvidia-apex 
-```
-
-
-##  Citation
-If you find the code, data, or the models useful, please cite this paper:
-```
- TBA
-```
-## License 
-``` 
- [MIT License](https://choosealicense.com/licenses/mit/)
-```
