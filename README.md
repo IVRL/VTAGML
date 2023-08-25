@@ -6,7 +6,7 @@ Deblina Bhattacharjee, Sabine Süsstrunk, and Mathieu Salzmann
 ICCV 2023 Paper: 
 
 https://ivrl.github.io/VTAGML/
-![Figure Abstract](teaser.gif)
+![Figure Abstract](avtar.gif)
 
 1. Install pytorch,torchvision
 2. Install apex
