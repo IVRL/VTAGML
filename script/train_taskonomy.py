@@ -51,7 +51,7 @@ def freeze_encoder_layers(
         frozen_encoder = False
     ):
         for name, param in model.named_parameters():
-            param.requires_grad = not frozen_encoder
+            param.requires_grad = not frozen_encoder # remove 'not' for a frozen encoder
             
             for module in unfrozen_modules:
                 if module in name:
@@ -422,7 +422,7 @@ def main():
     torch.manual_seed(61)
     device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
     
-    tasks = {0:"segmentation", 1:"depth"}
+    tasks = {0:"segmentation", 1:"depth"} # add 2:"normals" and 3:"edges" to replicate the above code
     
     batch_size = config["batch_size"]
     print("Creating datasets...")
