@@ -1,0 +1,6 @@
+timm 
+einops 
+torchmetrics 
+tensorboard 
+transformers 
+boto3
