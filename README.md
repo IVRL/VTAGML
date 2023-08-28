@@ -3,7 +3,7 @@
 Deblina Bhattacharjee, Sabine Süsstrunk, and Mathieu Salzmann
 
 
-ICCV 2023 Paper: 
+ICCV 2023 Paper: https://arxiv.org/abs/2308.12372
 
 https://ivrl.github.io/VTAGML/
 ![Figure Abstract](avtar.gif)
